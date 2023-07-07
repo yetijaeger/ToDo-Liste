@@ -10,18 +10,37 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.sql.*;
+
+
 import java.time.LocalDateTime;
 
 public class HelloApplication extends Application
 {
     public static void main(String[] args)
     {
-        launch();
+
+
+        String databaseUrl = "jdbc:sqlite:C:/Users/pc/Documents/datenbanken/todo.db";
+        String sql = "SELECT * FROM tasks";
+
+        try (Connection connection = DriverManager.getConnection(databaseUrl);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            System.out.println(resultSet);
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("description"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
-    public void start(Stage stage)
-    {
+    public void start(Stage stage) {
         // DataDefiniton
         ObservableList<ToDo> data = FXCollections.observableArrayList(
                 new ToDo(1, "Schnitzel kaufen", LocalDateTime.now(), LocalDateTime.now()),
@@ -61,5 +80,27 @@ public class HelloApplication extends Application
         // Set the scene to the stage and show the stage
         stage.setScene(scene);
         stage.show();
+
+
+
+
+
+        /*
+        String databaseUrl = "jdbc:sqlite:C:/Users/pc/Documents/datenbanken/todo.db";
+        String tableName = "tasks"; // Ersetze "deine_tabelle" durch den Namen deiner Tabelle
+
+        try (Connection connection = DriverManager.getConnection(databaseUrl);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName)) {
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString(1) + " - " + resultSet.getInt(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        */
+
+
     }
 }
