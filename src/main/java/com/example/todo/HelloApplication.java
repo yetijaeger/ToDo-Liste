@@ -14,6 +14,11 @@ import java.time.LocalDateTime;
 
 public class HelloApplication extends Application
 {
+    public static void main(String[] args)
+    {
+        launch();
+    }
+
     @Override
     public void start(Stage stage)
     {
@@ -56,10 +61,5 @@ public class HelloApplication extends Application
         // Set the scene to the stage and show the stage
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args)
-    {
-        launch();
     }
 }
