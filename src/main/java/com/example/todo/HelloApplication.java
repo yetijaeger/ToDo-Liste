@@ -22,7 +22,7 @@ public class HelloApplication extends Application
     @Override
     public void start(Stage stage)
     {
-        // Data
+        // DataDefiniton
         ObservableList<ToDo> data = FXCollections.observableArrayList(
                 new ToDo(1, "Schnitzel kaufen", LocalDateTime.now(), LocalDateTime.now()),
                 new ToDo(2, "Salami kaufen", LocalDateTime.now(), null),
