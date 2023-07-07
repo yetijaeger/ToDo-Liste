@@ -29,16 +29,16 @@ public class HelloApplication extends Application
         // Create table
         TableView<ToDo> tableView = new TableView<>();
 
-        TableColumn<ToDo, String> nameColumn = new TableColumn<>("ID");
+        TableColumn<ToDo, Integer> nameColumn = new TableColumn<>("ID");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<ToDo, Integer> descriptionColum = new TableColumn<>("Description");
+        TableColumn<ToDo, String> descriptionColum = new TableColumn<>("Description");
         descriptionColum.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        TableColumn<ToDo, Integer> creationColum = new TableColumn<>("Creation");
+        TableColumn<ToDo, LocalDateTime> creationColum = new TableColumn<>("Creation");
         creationColum.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
 
-        TableColumn<ToDo, Integer> finishColum = new TableColumn<>("Finish");
+        TableColumn<ToDo, LocalDateTime> finishColum = new TableColumn<>("Finish");
         finishColum.setCellValueFactory(new PropertyValueFactory<>("finishDate"));
 
         // Add columns to the TableView
