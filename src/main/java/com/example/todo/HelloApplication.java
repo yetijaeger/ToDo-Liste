@@ -14,42 +14,50 @@ import java.sql.*;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class HelloApplication extends Application
 {
+    static String dbPath = "jdbc:sqlite:C:/Users/USER/Documents/datenbanken/todo.db"; //
+    public static ObservableList<ToDo> data = FXCollections.observableArrayList();
+
     public static void main(String[] args)
     {
-
-
-        String databaseUrl = "jdbc:sqlite:C:/Users/pc/Documents/datenbanken/todo.db";
         String sql = "SELECT * FROM tasks";
 
-        try (Connection connection = DriverManager.getConnection(databaseUrl);
+        try (Connection connection = DriverManager.getConnection(dbPath);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+             ResultSet resultSet = statement.executeQuery(sql))
+        {
 
             System.out.println(resultSet);
 
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("description"));
+            while (resultSet.next())
+            {
+                // Create formatter to convert db datetime to LocalDateTime
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                // Get data from row
+                int id = resultSet.getInt("id");
+                String description = resultSet.getString("description");
+                LocalDateTime creationDate = LocalDateTime.parse(resultSet.getString("creationDate"), formatter);
+                LocalDateTime completionDate = resultSet.getString("completionDate") == null ? null : LocalDateTime.parse(resultSet.getString("completionDate"), formatter);
+
+                // Create new ToDo Object and add it to data list
+                ToDo toDo = new ToDo(id, description, creationDate, completionDate);
+                data.add(toDo);
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
         }
 
+        launch();
     }
 
     @Override
-    public void start(Stage stage) {
-        // DataDefiniton
-        ObservableList<ToDo> data = FXCollections.observableArrayList(
-                new ToDo(1, "Schnitzel kaufen", LocalDateTime.now(), LocalDateTime.now()),
-                new ToDo(2, "Salami kaufen", LocalDateTime.now(), null),
-                new ToDo(3, "Yo mama", LocalDateTime.now(), null),
-                new ToDo(4, "Yolo", LocalDateTime.now(), null),
-                new ToDo(5, "Sport", LocalDateTime.now(), null)
-        );
-
+    public void start(Stage stage)
+    {
         // Create table
         TableView<ToDo> tableView = new TableView<>();
 
@@ -80,27 +88,5 @@ public class HelloApplication extends Application
         // Set the scene to the stage and show the stage
         stage.setScene(scene);
         stage.show();
-
-
-
-
-
-        /*
-        String databaseUrl = "jdbc:sqlite:C:/Users/pc/Documents/datenbanken/todo.db";
-        String tableName = "tasks"; // Ersetze "deine_tabelle" durch den Namen deiner Tabelle
-
-        try (Connection connection = DriverManager.getConnection(databaseUrl);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName)) {
-
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString(1) + " - " + resultSet.getInt(2));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        */
-
-
     }
 }
