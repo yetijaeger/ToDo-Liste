@@ -26,12 +26,13 @@ public class HelloApplication extends Application
     }
 
     @Override
+
     public void start(Stage stage) throws SQLException {
 
         // Retrieve data from the database
         List<ToDo> entries = GetEntries.getAllEntries();
         ObservableList<ToDo> data = FXCollections.observableArrayList(entries);
-
+        
         // Create table
         TableView<ToDo> tableView = new TableView<>();
 
