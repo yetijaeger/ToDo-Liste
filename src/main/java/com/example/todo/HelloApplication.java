@@ -57,6 +57,8 @@ public class HelloApplication extends Application
         // Set the data to the TableView
         tableView.setItems(data);
 
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         // Create a ScrollPane and set the TableView as its content
         ScrollPane scrollPane = new ScrollPane(tableView);
         scrollPane.setFitToHeight(true);
